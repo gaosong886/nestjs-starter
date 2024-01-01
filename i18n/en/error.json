@@ -1,0 +1,14 @@
+{
+  "SUCCESS": "Success",
+  "USERNAME_EXISTS": "Username already exists",
+  "LOGIN_FAILED": "Login failed, username or password is incorrect",
+  "ACCOUNT_BANND": "The account has been banned",
+  "INVALID_USER": "Invalid user",
+  "VALIDATION_FAILED": "Validation failed",
+  "INTERNAL_SERVER_ERROR": "Internal server error",
+  "TOO_MANY_REQUESTS": "Too Many Requests",
+  "DELETE_MENU_FAILED": "Deletion failed. The node has child nodes. Please delete the child nodes first",
+  "DELETE_ROLE_FAILED": "Deletion failed. You cant delete the role of administrator",
+  "DELETE_USER_FAILED": "Deletion failed. You cant delete the administrator account",
+  "FILE_TYPE_UNSUPPORTED": "Unsupported file type"
+}

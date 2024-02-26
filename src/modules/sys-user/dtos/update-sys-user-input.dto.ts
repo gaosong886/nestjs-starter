@@ -11,25 +11,25 @@ import { ACCOUNT_STATUS } from '../constants/account-status.constant';
 import { Transform } from 'class-transformer';
 
 export class UpdateSysUserInputDTO {
-  @MaxLength(32)
+  @MaxLength(15)
   @MinLength(5)
   @IsString()
   username: string;
 
   @IsOptional()
-  @MaxLength(32)
+  @MaxLength(15)
   @MinLength(8)
   @IsString()
   password?: string;
 
-  @MaxLength(32)
+  @MaxLength(15)
   @MinLength(1)
   @IsString()
   nickname: string;
 
   @IsOptional()
   @IsString()
-  @MaxLength(256)
+  @MaxLength(255)
   photo?: string;
 
   @IsOptional()
@@ -39,7 +39,7 @@ export class UpdateSysUserInputDTO {
 
   @IsOptional()
   @IsString()
-  @MaxLength(256)
+  @MaxLength(255)
   remark?: string;
 
   @IsArray()

@@ -7,7 +7,7 @@ export class SysPermissionEntity {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', unique: true, length: 255 })
+  @Column('varchar', { name: 'name', unique: true, length: 63 })
   name: string;
 
   @Exclude()

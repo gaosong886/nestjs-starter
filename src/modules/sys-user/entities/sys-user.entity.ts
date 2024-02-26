@@ -15,13 +15,13 @@ export class SysUserEntity {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id', comment: 'ID' })
   id: number;
 
-  @Column('varchar', { name: 'photo', length: 255, nullable: true })
+  @Column('varchar', { name: 'photo', length: 255, default: '' })
   photo: string;
 
-  @Column('varchar', { name: 'nickname', length: 255 })
+  @Column('varchar', { name: 'nickname', length: 15 })
   nickname: string;
 
-  @Column('varchar', { name: 'username', unique: true, length: 255 })
+  @Column('varchar', { name: 'username', unique: true, length: 15 })
   username: string;
 
   @Exclude()
@@ -33,7 +33,7 @@ export class SysUserEntity {
   accountStatus: number;
 
   @Exclude()
-  @Column('varchar', { name: 'remark', length: 255, nullable: true })
+  @Column('varchar', { name: 'remark', length: 255, default: '' })
   remark: string;
 
   @Exclude()

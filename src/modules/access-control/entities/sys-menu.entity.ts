@@ -14,19 +14,19 @@ export class SysMenuEntity {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', length: 255 })
+  @Column('varchar', { name: 'name', length: 15 })
   name: string;
 
   @Column('tinyint', { name: 'type' })
   type: number;
 
-  @Column('varchar', { name: 'icon', length: 255, nullable: true })
+  @Column('varchar', { name: 'icon', length: 255, default: '' })
   icon: string;
 
   @Column('int', { name: 'parent_id', default: () => "'0'" })
   parentId: number;
 
-  @Column('varchar', { name: 'path', length: 255, nullable: true })
+  @Column('varchar', { name: 'path', length: 255, default: '' })
   path: string;
 
   @Column('int', { name: 'sort_weight', default: () => "'0'" })

@@ -10,7 +10,7 @@ import {
 
 export class SysMenuInputDTO {
   @IsNotEmpty()
-  @MaxLength(8)
+  @MaxLength(15)
   @IsString()
   name: string;
 
@@ -19,7 +19,7 @@ export class SysMenuInputDTO {
   type: number;
 
   @IsOptional()
-  @MaxLength(256)
+  @MaxLength(255)
   @IsString()
   icon: string;
 
@@ -29,7 +29,7 @@ export class SysMenuInputDTO {
   parentId: number = 0;
 
   @IsOptional()
-  @MaxLength(256)
+  @MaxLength(255)
   @IsString()
   path: string;
 

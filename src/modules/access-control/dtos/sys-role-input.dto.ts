@@ -9,12 +9,12 @@ import {
 
 export class SysRoleInputDTO {
   @IsNotEmpty()
-  @MaxLength(32)
+  @MaxLength(31)
   @IsString()
   name: string;
 
   @Optional()
-  @MaxLength(256)
+  @MaxLength(255)
   @IsString()
   description?: string;
 

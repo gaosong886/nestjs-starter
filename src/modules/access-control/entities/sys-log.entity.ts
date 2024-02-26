@@ -17,14 +17,14 @@ export class SysLogEntity {
   @Column('int', { name: 'user_id', default: () => "'0'" })
   userId: number;
 
-  @Column('varchar', { name: 'ip', length: 255 })
+  @Column('varchar', { name: 'ip', length: 31 })
   ip: string;
 
   @Column('varchar', { name: 'url', length: 255 })
   url: string;
 
-  @Column('text', { name: 'params', nullable: true })
-  params: string | null;
+  @Column('varchar', { name: 'params', length: 511, default: '' })
+  params: string;
 
   @Column('datetime', {
     name: 'request_at',

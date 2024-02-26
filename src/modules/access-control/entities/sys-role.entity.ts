@@ -15,11 +15,11 @@ export class SysRoleEntity {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', unique: true, length: 255 })
+  @Column('varchar', { name: 'name', unique: true, length: 31 })
   name: string;
 
   @Exclude()
-  @Column('varchar', { name: 'description', length: 255, nullable: true })
+  @Column('varchar', { name: 'description', length: 255, default: '' })
   description: string;
 
   @Exclude()

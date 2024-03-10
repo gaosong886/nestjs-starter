@@ -60,7 +60,7 @@ export class AuthService {
     const authToken = {
       tokenType: JWT_TOKEN_TYPE,
       accessToken: this.jwtService.sign(
-        { ...payload, ...subject },
+        { user: payload, ...subject },
         { expiresIn: this.configService.get('jwt.accessTokenExpiresInSec') },
       ),
       accessTokenExpiresInSec: this.configService.get(

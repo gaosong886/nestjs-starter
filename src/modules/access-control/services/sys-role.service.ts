@@ -46,7 +46,6 @@ export class SysRoleService {
         ),
       );
 
-    // Start a transaction
     await this.dataSource.transaction(async (manager) => {
       await manager.save(entity);
       await this.storeRolePermissionsInCache(entity.id, _.uniq(permissions));
@@ -55,7 +54,6 @@ export class SysRoleService {
   }
 
   async update(id: number, sysRoleInputDTO: SysRoleInputDTO): Promise<void> {
-    // Start a transaction
     await this.dataSource.transaction(async (manager) => {
       const entity = await manager.findOne(SysRoleEntity, {
         where: { id: id },
@@ -114,7 +112,6 @@ export class SysRoleService {
         }),
       );
 
-    // Start a transaction
     await this.dataSource.transaction(async (manager) => {
       await manager.delete(SysRoleEntity, { id: roleId });
       await this.deleteRolePermissionsInCache(roleId);

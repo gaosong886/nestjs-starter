@@ -58,7 +58,6 @@ export class SysUserService {
     newUser.photo = createSysUserInputDTO.photo;
     newUser.remark = createSysUserInputDTO.remark;
 
-    // Start a transaction
     await this.dataSource.transaction(async (manager) => {
       newUser.roles = await manager.find(SysRoleEntity, {
         where: { id: In(_.uniq(createSysUserInputDTO.roleIds)) },
@@ -127,7 +126,6 @@ export class SysUserService {
     id: number,
     updateSysUserInputDTO: UpdateSysUserInputDTO,
   ): Promise<void> {
-    // Start a transaction
     await this.dataSource.transaction(async (manager) => {
       const entity = await manager.findOne(SysUserEntity, {
         where: { id: id },
@@ -156,7 +154,6 @@ export class SysUserService {
         }),
       );
 
-    // Start a transaction
     await this.dataSource.transaction(async (manager) => {
       await manager.delete(SysUserEntity, { id: userId });
       await this.deleteSysUserInCache(userId);

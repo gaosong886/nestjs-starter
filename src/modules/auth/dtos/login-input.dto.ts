@@ -1,13 +1,15 @@
-import { IsString, MaxLength, MinLength } from 'class-validator';
+import { MaxLength, MinLength } from 'class-validator';
+import { IsStringStrict } from 'src/common/decorators/is-string-strict.decorator';
 
 export class LoginInputDTO {
   @MaxLength(32)
   @MinLength(5)
-  @IsString()
+  @IsStringStrict()
   username: string;
 
   @MaxLength(32)
   @MinLength(8)
-  @IsString()
+  // @IsStrongPassword()
+  @IsStringStrict()
   password: string;
 }

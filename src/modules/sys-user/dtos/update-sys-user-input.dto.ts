@@ -5,30 +5,31 @@ import {
   IsOptional,
   MaxLength,
   MinLength,
-  IsString,
+  IsUrl,
 } from 'class-validator';
 import { ACCOUNT_STATUS } from '../constants/account-status.constant';
 import { Transform } from 'class-transformer';
+import { IsStringStrict } from 'src/common/decorators/is-string-strict.decorator';
 
 export class UpdateSysUserInputDTO {
   @MaxLength(15)
   @MinLength(5)
-  @IsString()
+  @IsStringStrict()
   username: string;
 
   @IsOptional()
   @MaxLength(15)
   @MinLength(8)
-  @IsString()
+  @IsStringStrict()
   password?: string;
 
   @MaxLength(15)
   @MinLength(1)
-  @IsString()
+  @IsStringStrict()
   nickname: string;
 
   @IsOptional()
-  @IsString()
+  @IsUrl()
   @MaxLength(255)
   photo?: string;
 
@@ -38,7 +39,7 @@ export class UpdateSysUserInputDTO {
   accountStatus?: ACCOUNT_STATUS = ACCOUNT_STATUS.ACTIVE;
 
   @IsOptional()
-  @IsString()
+  @IsStringStrict()
   @MaxLength(255)
   remark?: string;
 

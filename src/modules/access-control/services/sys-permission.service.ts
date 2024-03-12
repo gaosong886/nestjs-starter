@@ -75,7 +75,6 @@ export class SysPermissionService {
       });
     });
 
-    // Start a transaction
     await this.dataSource.transaction(async (manager) => {
       // Find all existing permissions in database
       const oldPerms = await this.sysPermissionRepository.find();

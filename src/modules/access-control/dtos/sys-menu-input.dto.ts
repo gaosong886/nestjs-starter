@@ -1,17 +1,19 @@
 import { Transform } from 'class-transformer';
 import {
+  IsAlphanumeric,
   IsArray,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsString,
   MaxLength,
 } from 'class-validator';
+import { IsFilePath } from 'src/common/decorators/is-file-path.decorator';
+import { IsStringStrict } from 'src/common/decorators/is-string-strict.decorator';
 
 export class SysMenuInputDTO {
   @IsNotEmpty()
   @MaxLength(15)
-  @IsString()
+  @IsStringStrict()
   name: string;
 
   @IsNumber()
@@ -20,7 +22,7 @@ export class SysMenuInputDTO {
 
   @IsOptional()
   @MaxLength(255)
-  @IsString()
+  @IsAlphanumeric()
   icon: string;
 
   @IsOptional()
@@ -30,7 +32,7 @@ export class SysMenuInputDTO {
 
   @IsOptional()
   @MaxLength(255)
-  @IsString()
+  @IsFilePath()
   path: string;
 
   @IsOptional()

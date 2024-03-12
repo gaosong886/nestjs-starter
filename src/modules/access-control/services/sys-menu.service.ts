@@ -36,7 +36,6 @@ export class SysMenuService {
   }
 
   async update(id: number, sysMenuInputDTO: SysMenuInputDTO): Promise<void> {
-    // Start a transaction
     await this.dataSource.transaction(async (manager) => {
       const entity = await manager.findOne(SysMenuEntity, {
         relations: ['roles'],
@@ -64,7 +63,6 @@ export class SysMenuService {
   }
 
   async hide(id: number): Promise<void> {
-    // Start a transaction
     await this.dataSource.transaction(async (manager) => {
       const entity = await manager.findOne(SysMenuEntity, {
         where: { id: id },
@@ -107,7 +105,6 @@ export class SysMenuService {
         }),
       );
 
-    // Start a transaction
     await this.dataSource.transaction(async (manager) => {
       const entity = await manager.findOne(SysMenuEntity, {
         relations: ['roles'],

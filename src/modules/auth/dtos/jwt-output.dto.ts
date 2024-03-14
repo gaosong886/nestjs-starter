@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class JwtTokenOutputDTO {
+export class JwtOutputDTO {
   @Expose()
   tokenType: string;
 

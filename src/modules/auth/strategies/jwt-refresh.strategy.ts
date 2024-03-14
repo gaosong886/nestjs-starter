@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { STRATEGY_JWT_REFRESH } from '../constants';
-import { JwtTokenPayloadDTO } from '../dtos/jwt-token-payload.dto';
+import { JwtPayloadDTO } from '../dtos/jwt-payload.dto';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()
@@ -19,10 +19,10 @@ export class JwtRefreshStrategy extends PassportStrategy(
     });
   }
 
-  async validate(payload: any): Promise<JwtTokenPayloadDTO> {
+  async validate(claims: any): Promise<JwtPayloadDTO> {
     return plainToInstance(
-      JwtTokenPayloadDTO,
-      { id: payload.sub },
+      JwtPayloadDTO,
+      { id: claims.sub },
       {
         excludeExtraneousValues: true,
       },

@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SysMenuInputDTO } from '../dtos/sys-menu-input.dto';
 import { plainToInstance } from 'class-transformer';
 import { SysPermissionEntity } from '../entities/sys-permission.entity';
-import { MENU_TYPE } from '../constants/menu-type.constant';
+import { MENU_TYPE } from '../constants/menu-type.enum';
 import { SysRoleService } from './sys-role.service';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import _ from 'lodash';

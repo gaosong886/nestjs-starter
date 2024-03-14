@@ -7,7 +7,7 @@ import {
   MinLength,
   IsUrl,
 } from 'class-validator';
-import { ACCOUNT_STATUS } from '../constants/account-status.constant';
+import { ACCOUNT_STATUS } from '../constants/account-status.enum';
 import { Transform } from 'class-transformer';
 import { IsStringStrict } from 'src/common/decorators/is-string-strict.decorator';
 

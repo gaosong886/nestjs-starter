@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class JwtTokenPayloadDTO {
+export class JwtPayloadDTO {
   @Expose()
   id: number;
 

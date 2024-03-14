@@ -3,13 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { Request } from 'express';
-import { JwtTokenOutputDTO } from '../dtos/jwt-token-output.dto';
-import { JwtTokenPayloadDTO } from '../dtos/jwt-token-payload.dto';
+import { JwtOutputDTO } from '../dtos/jwt-output.dto';
+import { JwtPayloadDTO } from '../dtos/jwt-payload.dto';
 import { SysUserService } from 'src/modules/sys-user/services/sys-user.service';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { LoginInputDTO } from '../dtos/login-input.dto';
-import { ACCOUNT_STATUS } from 'src/modules/sys-user/constants/account-status.constant';
+import { ACCOUNT_STATUS } from 'src/modules/sys-user/constants/account-status.enum';
 import { JWT_TOKEN_TYPE } from '../constants';
+import { TOKEN_TYPE } from '../constants/token-type.enum';
 
 @Injectable()
 export class AuthService {
@@ -20,22 +21,20 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async validateSysUser(
-    loginInputDTO: LoginInputDTO,
-  ): Promise<JwtTokenOutputDTO> {
+  async validateSysUser(loginInputDTO: LoginInputDTO): Promise<JwtOutputDTO> {
     const user = await this.sysUserService.validate(
       loginInputDTO.username,
       loginInputDTO.password,
     );
 
     return this.generateAuthToken(
-      plainToInstance(JwtTokenPayloadDTO, instanceToPlain(user), {
+      plainToInstance(JwtPayloadDTO, instanceToPlain(user), {
         excludeExtraneousValues: true,
       }),
     );
   }
 
-  async refreshAuthToken(req: Request): Promise<JwtTokenOutputDTO> {
+  async refreshAuthToken(req: Request): Promise<JwtOutputDTO> {
     const user = await this.sysUserService.retrieveSysUserFromCache(
       req.user.id,
     );
@@ -48,33 +47,36 @@ export class AuthService {
     }
 
     return this.generateAuthToken(
-      plainToInstance(JwtTokenPayloadDTO, instanceToPlain(user), {
+      plainToInstance(JwtPayloadDTO, instanceToPlain(user), {
         excludeExtraneousValues: true,
       }),
     );
   }
 
-  generateAuthToken(payload: JwtTokenPayloadDTO): JwtTokenOutputDTO {
+  generateAuthToken(payload: JwtPayloadDTO): JwtOutputDTO {
     const subject = { sub: payload.id };
 
     const authToken = {
       tokenType: JWT_TOKEN_TYPE,
       accessToken: this.jwtService.sign(
-        { user: payload, ...subject },
+        { type: TOKEN_TYPE.ACCESS, user: payload, ...subject },
         { expiresIn: this.configService.get('jwt.accessTokenExpiresInSec') },
       ),
       accessTokenExpiresInSec: this.configService.get(
         'jwt.accessTokenExpiresInSec',
       ),
-      refreshToken: this.jwtService.sign(subject, {
-        expiresIn: this.configService.get('jwt.refreshTokenExpiresInSec'),
-      }),
+      refreshToken: this.jwtService.sign(
+        { type: TOKEN_TYPE.REFRESH, ...subject },
+        {
+          expiresIn: this.configService.get('jwt.refreshTokenExpiresInSec'),
+        },
+      ),
       refreshTokenExpiresInSec: this.configService.get(
         'jwt.refreshTokenExpiresInSec',
       ),
     };
 
-    return plainToInstance(JwtTokenOutputDTO, authToken, {
+    return plainToInstance(JwtOutputDTO, authToken, {
       excludeExtraneousValues: true,
     });
   }

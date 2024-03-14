@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, FindManyOptions, In, Like, Repository } from 'typeorm';
 import { checkPassword, hashPassword } from 'src/common/utils/password.util';
 import { I18nContext, I18nService } from 'nestjs-i18n';
-import { ACCOUNT_STATUS } from '../constants/account-status.constant';
+import { ACCOUNT_STATUS } from '../constants/account-status.enum';
 import { WinstonService } from '@gaosong886/nestjs-winston';
 import { PaginationOutputDTO } from 'src/common/dtos/pagination-output.dto';
 import { UpdateSysUserInputDTO } from '../dtos/update-sys-user-input.dto';

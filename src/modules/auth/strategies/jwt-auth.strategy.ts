@@ -21,8 +21,9 @@ export class JwtAuthStrategy extends PassportStrategy(
   }
 
   async validate(claims: any): Promise<JwtPayloadDTO> {
-    if (!claims.user || claims.type != TOKEN_TYPE.ACCESS)
-      new UnauthorizedException(`Illegal token.`);
+    if (!claims.user || claims.type != TOKEN_TYPE.ACCESS) {
+      throw new UnauthorizedException('Invalid token.');
+    }
     return plainToInstance(JwtPayloadDTO, claims.user, {
       excludeExtraneousValues: true,
     });

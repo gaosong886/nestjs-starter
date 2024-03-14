@@ -41,6 +41,8 @@ export class HttpExceptionsFilter implements ExceptionFilter {
       });
     }
 
+    console.log(exception);
+
     // Personally prefer to always return 200 to the client
     res.status(statusCode).json(new ApiResponseDTO(statusCode, message));
   }

@@ -54,19 +54,17 @@ export class AuthService {
   }
 
   generateAuthToken(payload: JwtPayloadDTO): JwtOutputDTO {
-    const subject = { sub: payload.id };
-
     const authToken = {
       tokenType: JWT_TOKEN_TYPE,
       accessToken: this.jwtService.sign(
-        { type: TOKEN_TYPE.ACCESS, user: payload, ...subject },
+        { type: TOKEN_TYPE.ACCESS, user: payload },
         { expiresIn: this.configService.get('jwt.accessTokenExpiresInSec') },
       ),
       accessTokenExpiresInSec: this.configService.get(
         'jwt.accessTokenExpiresInSec',
       ),
       refreshToken: this.jwtService.sign(
-        { type: TOKEN_TYPE.REFRESH, ...subject },
+        { type: TOKEN_TYPE.REFRESH, user: { id: payload.id } },
         {
           expiresIn: this.configService.get('jwt.refreshTokenExpiresInSec'),
         },

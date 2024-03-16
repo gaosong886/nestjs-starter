@@ -48,7 +48,7 @@ export class SysRoleService {
 
     await this.dataSource.transaction(async (manager) => {
       await manager.save(entity);
-      await this.storeRolePermissionsInCache(entity.id, _.uniq(permissions));
+      await this.saveRolePermissionsToCache(entity.id, _.uniq(permissions));
     });
     return entity;
   }
@@ -77,7 +77,7 @@ export class SysRoleService {
         );
 
       await manager.save(entity);
-      await this.storeRolePermissionsInCache(entity.id, _.uniq(permissions));
+      await this.saveRolePermissionsToCache(entity.id, _.uniq(permissions));
     });
   }
 
@@ -122,7 +122,7 @@ export class SysRoleService {
     await this.redisClient.del(SYS_ROLE_PERMISSION_KEY(roleId));
   }
 
-  async storeRolePermissionsInCache(
+  async saveRolePermissionsToCache(
     roleId: number,
     permNames: string[],
   ): Promise<void> {
@@ -133,7 +133,10 @@ export class SysRoleService {
     await pipeline.exec();
   }
 
-  async retrieveRolePermissionsFromCache(roleId: number): Promise<string[]> {
-    return await this.redisClient.smembers(SYS_ROLE_PERMISSION_KEY(roleId));
+  async hasPermission(roleId: number, permission: string): Promise<number> {
+    return await this.redisClient.sismember(
+      SYS_ROLE_PERMISSION_KEY(roleId),
+      permission,
+    );
   }
 }

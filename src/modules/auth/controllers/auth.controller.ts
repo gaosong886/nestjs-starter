@@ -18,9 +18,7 @@ export class AuthController {
 
   @AllowAnonymous()
   @Post('login')
-  async login(
-    @Body() loginInputDto: LoginInputDTO,
-  ): Promise<JwtOutputDTO> {
+  async login(@Body() loginInputDto: LoginInputDTO): Promise<JwtOutputDTO> {
     return await this.authService.validateSysUser(loginInputDto);
   }
 

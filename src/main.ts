@@ -11,6 +11,7 @@ async function bootstrap() {
   // Set the value of ‘trust proxy’ to the number of reverse proxies in front of the current application.
   // For example, if there is one Nginx in front of it, use "app.set('trust proxy', 1)";
   app.set('trust proxy', 1);
+
   app.enableCors({
     origin: '*',
     allowedHeaders: ['Authorization', 'Content-Type'],

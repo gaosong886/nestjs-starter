@@ -38,7 +38,7 @@ export class SysUserController {
   @AvoidPermission()
   @Get('profile')
   async profile(@Req() req: Request): Promise<SysUserEntity> {
-    return await this.sysUserService.retrieveSysUserFromCache(req.user.id);
+    return await this.sysUserService.getSysUserFromCache(req.user.id);
   }
 
   @SerializeOptions({

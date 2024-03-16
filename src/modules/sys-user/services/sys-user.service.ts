@@ -63,7 +63,7 @@ export class SysUserService {
         where: { id: In(_.uniq(createSysUserInputDTO.roleIds)) },
       });
       await manager.save(newUser);
-      await this.storeSysUserInCache(newUser);
+      await this.saveSysUserToCache(newUser);
     });
 
     return newUser;
@@ -142,7 +142,7 @@ export class SysUserService {
         where: { id: In(_.uniq(updateSysUserInputDTO.roleIds)) },
       });
       await manager.save(entity);
-      await this.storeSysUserInCache(entity);
+      await this.saveSysUserToCache(entity);
     });
   }
 
@@ -163,17 +163,17 @@ export class SysUserService {
   async deleteSysUserInCache(userId: number) {
     await this.redisClient.del(SYS_USER_KEY(userId));
   }
-  async storeSysUserInCache(entity: Record<string, any>): Promise<void> {
+  async saveSysUserToCache(entity: Record<string, any>): Promise<void> {
     await this.redisClient.set(SYS_USER_KEY(entity.id), JSON.stringify(entity));
   }
 
-  async retrieveSysUserFromCache(userId: number): Promise<SysUserEntity> {
+  async getSysUserFromCache(userId: number): Promise<SysUserEntity> {
     const str = await this.redisClient.get(SYS_USER_KEY(userId));
     if (str) return plainToInstance(SysUserEntity, JSON.parse(str));
 
     // If there is no user data in cache, create one.
     const user = await this.findById(userId);
-    if (user) await this.storeSysUserInCache(user);
+    if (user) await this.saveSysUserToCache(user);
     return user;
   }
 }

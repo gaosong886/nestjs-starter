@@ -36,14 +36,11 @@ export class PermissionGuard implements CanActivate {
         // Administrator can do everything
         if (roles[i].id === 1) return true;
 
-        // Get permissions from redis by role id
-        const permissions =
-          await this.sysRoleService.retrieveRolePermissionsFromCache(
-            roles[i].id,
-          );
-
-        // Check if there is permission to access the current path
-        if (permissions.includes(permissionString)) return true;
+        const res = await this.sysRoleService.hasPermission(
+          roles[i].id,
+          permissionString,
+        );
+        if (res == 1) return true;
       }
     }
 

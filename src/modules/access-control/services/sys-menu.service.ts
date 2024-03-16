@@ -87,7 +87,7 @@ export class SysMenuService {
           perms.push(perm.name);
         }
       }
-      await this.sysRoleService.storeRolePermissionsInCache(
+      await this.sysRoleService.saveRolePermissionsToCache(
         roleId,
         _.uniq(perms),
       );

@@ -18,7 +18,7 @@ export class JwtAuthGuard extends AuthGuard(STRATEGY_JWT_AUTH) {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    // If there is a @SkipAuth decorator, let go
+    // If there is a @AllowAnonymous decorator, let go
     const skip: boolean = this.reflector.get<boolean>(
       ALLOW_ANONYMOUS_KEY,
       context.getHandler(),

@@ -1,16 +1,16 @@
 import { Optional } from '@nestjs/common';
 import { IsArray, IsNotEmpty, IsNumber, MaxLength } from 'class-validator';
-import { IsStringStrict } from 'src/common/decorators/is-string-strict.decorator';
+import { IsLetterOrNumber } from 'src/common/decorators/is-letter-or-number.decorator';
 
 export class SysRoleInputDTO {
   @IsNotEmpty()
   @MaxLength(31)
-  @IsStringStrict()
+  @IsLetterOrNumber()
   name: string;
 
   @Optional()
   @MaxLength(255)
-  @IsStringStrict()
+  @IsLetterOrNumber()
   description?: string;
 
   @IsArray()

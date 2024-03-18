@@ -135,6 +135,7 @@ export class SysUserService {
       entity.nickname = updateSysUserInputDTO.nickname;
       entity.photo = updateSysUserInputDTO.photo;
       entity.remark = updateSysUserInputDTO.remark;
+
       if (updateSysUserInputDTO.password)
         entity.password = await hashPassword(updateSysUserInputDTO.password);
 

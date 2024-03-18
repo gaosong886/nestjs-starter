@@ -9,23 +9,23 @@ import {
 } from 'class-validator';
 import { ACCOUNT_STATUS } from '../constants/account-status.enum';
 import { Transform } from 'class-transformer';
-import { IsStringStrict } from 'src/common/decorators/is-string-strict.decorator';
+import { IsLetterOrNumber } from 'src/common/decorators/is-letter-or-number.decorator';
 
 export class UpdateSysUserInputDTO {
   @MaxLength(15)
   @MinLength(5)
-  @IsStringStrict()
+  @IsLetterOrNumber()
   username: string;
 
   @IsOptional()
   @MaxLength(15)
   @MinLength(8)
-  @IsStringStrict()
+  @IsLetterOrNumber()
   password?: string;
 
   @MaxLength(15)
   @MinLength(1)
-  @IsStringStrict()
+  @IsLetterOrNumber()
   nickname: string;
 
   @IsOptional()
@@ -39,7 +39,7 @@ export class UpdateSysUserInputDTO {
   accountStatus?: ACCOUNT_STATUS = ACCOUNT_STATUS.ACTIVE;
 
   @IsOptional()
-  @IsStringStrict()
+  @IsLetterOrNumber()
   @MaxLength(255)
   remark?: string;
 

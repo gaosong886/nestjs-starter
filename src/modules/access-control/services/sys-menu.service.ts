@@ -28,10 +28,13 @@ export class SysMenuService {
 
   async create(sysMenuInputDTO: SysMenuInputDTO): Promise<SysMenuEntity> {
     const entity = plainToInstance(SysMenuEntity, sysMenuInputDTO);
-    if (entity.type === MENU_TYPE.OPERATION)
+
+    if (entity.type === MENU_TYPE.OPERATION) {
       entity.permissions = await this.sysPermissionRepository.find({
         where: { id: In(_.uniq(sysMenuInputDTO.permissionIds)) },
       });
+    }
+
     return await this.sysMenuRepository.save(entity);
   }
 
@@ -81,15 +84,15 @@ export class SysMenuService {
         .where('menu.type = :type', { type: MENU_TYPE.OPERATION })
         .andWhere('role.id = :id', { id: roleId })
         .getMany();
-      const perms = [];
+      const permissions = [];
       for (const menu of menus) {
         for (const perm of menu.permissions) {
-          perms.push(perm.name);
+          permissions.push(perm.name);
         }
       }
       await this.sysRoleService.saveRolePermissionsToCache(
         roleId,
-        _.uniq(perms),
+        _.uniq(permissions),
       );
     }
   }
@@ -98,12 +101,13 @@ export class SysMenuService {
     const childMenus = await this.sysMenuRepository.find({
       where: { parentId: id },
     });
-    if (childMenus.length > 0)
+    if (childMenus.length > 0) {
       throw new ConflictException(
         this.i18n.t('error.DELETE_MENU_FAILED', {
           lang: I18nContext.current().lang,
         }),
       );
+    }
 
     await this.dataSource.transaction(async (manager) => {
       const entity = await manager.findOne(SysMenuEntity, {

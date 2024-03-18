@@ -105,6 +105,7 @@ export class SysRoleService {
   }
 
   async delete(roleId: number) {
+    // Can not delete the role of admin
     if (roleId == 1)
       throw new ConflictException(
         this.i18n.t('error.DELETE_ROLE_FAILED', {
@@ -127,6 +128,8 @@ export class SysRoleService {
     permNames: string[],
   ): Promise<void> {
     if (permNames.length == 0) return;
+
+    // Remove old set and create a new one with MULTI
     const pipeline = this.redisClient.multi();
     pipeline.del(SYS_ROLE_PERMISSION_KEY(roleId));
     pipeline.sadd(SYS_ROLE_PERMISSION_KEY(roleId), permNames);

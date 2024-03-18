@@ -12,8 +12,11 @@ import path from 'path';
 @Module({
   imports: [
     TypeOrmModule.forFeature([SysUserEntity, SysRoleEntity]),
+
+    // File upload
     MulterModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
+        // Customize the save path and filename
         storage: multer.diskStorage({
           destination: configService.get<string>('fileUploadDir'),
           filename: (_req, file, cb) => {

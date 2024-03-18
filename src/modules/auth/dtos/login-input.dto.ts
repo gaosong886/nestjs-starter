@@ -1,15 +1,15 @@
 import { MaxLength, MinLength } from 'class-validator';
-import { IsStringStrict } from 'src/common/decorators/is-string-strict.decorator';
+import { IsLetterOrNumber } from 'src/common/decorators/is-letter-or-number.decorator';
 
 export class LoginInputDTO {
   @MaxLength(32)
   @MinLength(5)
-  @IsStringStrict()
+  @IsLetterOrNumber()
   username: string;
 
   @MaxLength(32)
   @MinLength(8)
   // @IsStrongPassword()
-  @IsStringStrict()
+  @IsLetterOrNumber()
   password: string;
 }

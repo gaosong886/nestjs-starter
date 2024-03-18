@@ -35,9 +35,7 @@ export class AuthService {
   }
 
   async refreshAuthToken(req: Request): Promise<JwtOutputDTO> {
-    const user = await this.sysUserService.getSysUserFromCache(
-      req.user.id,
-    );
+    const user = await this.sysUserService.getSysUserFromCache(req.user.id);
     if (!user || user.accountStatus == ACCOUNT_STATUS.BANNED) {
       throw new UnauthorizedException(
         this.i18n.t('error.INVALID_USER', {

@@ -8,12 +8,12 @@ import {
   MaxLength,
 } from 'class-validator';
 import { IsFilePath } from 'src/common/decorators/is-file-path.decorator';
-import { IsStringStrict } from 'src/common/decorators/is-string-strict.decorator';
+import { IsLetterOrNumber } from 'src/common/decorators/is-letter-or-number.decorator';
 
 export class SysMenuInputDTO {
   @IsNotEmpty()
   @MaxLength(15)
-  @IsStringStrict()
+  @IsLetterOrNumber()
   name: string;
 
   @IsNumber()

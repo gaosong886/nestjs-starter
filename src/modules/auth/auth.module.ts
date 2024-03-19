@@ -1,11 +1,11 @@
 import { Global, Module } from '@nestjs/common';
-import { AuthController } from './controllers/auth.controller';
+import { AuthController } from './controller/auth.controller';
 import { PassportModule } from '@nestjs/passport';
-import { STRATEGY_JWT_AUTH } from './constants';
+import { STRATEGY_JWT_AUTH } from './constant';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from './services/auth.service';
-import { JwtAuthStrategy } from './strategies/jwt-auth.strategy';
-import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
+import { AuthService } from './service/auth.service';
+import { JwtAuthStrategy } from './guard/strategy/jwt-auth.strategy';
+import { JwtRefreshStrategy } from './guard/strategy/jwt-refresh.strategy';
 import { ConfigService } from '@nestjs/config';
 import { SysUserModule } from '../sys-user/sys-user.module';
 

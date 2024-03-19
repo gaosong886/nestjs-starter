@@ -30,8 +30,6 @@ Create a `.env` file from the template `.env.template` file.
 
 - We need to generate a pair of secret keys for JWT authentication, and convert the key files to `base64` to fill in `.env` file.
 
-- If you are not familiar with the way of generating key pair, check this project: [nestjs-starter-rest-api](https://github.com/monstar-lab-oss/nestjs-starter-rest-api), it provide both [with docker](https://github.com/monstar-lab-oss/nestjs-starter-rest-api/blob/master/README.md#with-docker) and [without docker](https://github.com/monstar-lab-oss/nestjs-starter-rest-api/blob/master/README.md#without-docker) solutions.
-
 Launch `MySQL` and `Redis`. Initialize database with `resources/init.sql`, it provides some initial values and settings data.
 
 ## Run

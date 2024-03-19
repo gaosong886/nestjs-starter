@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SysRoleEntity } from './entities/sys-role.entity';
-import { SysPermissionEntity } from './entities/sys-permission.entity';
-import { SysRoleService } from './services/sys-role.service';
-import { SysRoleController } from './controllers/sys-role.controller';
-import { SysPermissionService } from './services/sys-permission.service';
+import { SysRoleEntity } from './model/entity/sys-role.entity';
+import { SysPermissionEntity } from './model/entity/sys-permission.entity';
+import { SysRoleService } from './service/sys-role.service';
+import { SysRoleController } from './controller/sys-role.controller';
+import { SysPermissionService } from './service/sys-permission.service';
 import { DiscoveryService, MetadataScanner } from '@nestjs/core';
-import { SysPermissionController } from './controllers/sys-permission.controller';
-import { SysMenuController } from './controllers/sys-menu.controller';
-import { SysMenuService } from './services/sys-menu.service';
-import { SysMenuEntity } from './entities/sys-menu.entity';
-import { SysLogService } from './services/sys-log.service';
-import { SysLogEntity } from './entities/sys-log.entity';
-import { SysLogController } from './controllers/sys-log.controller';
+import { SysPermissionController } from './controller/sys-permission.controller';
+import { SysMenuController } from './controller/sys-menu.controller';
+import { SysMenuService } from './service/sys-menu.service';
+import { SysMenuEntity } from './model/entity/sys-menu.entity';
+import { SysLogService } from './service/sys-log.service';
+import { SysLogEntity } from './model/entity/sys-log.entity';
+import { SysLogController } from './controller/sys-log.controller';
 
 @Module({
   imports: [

@@ -2,11 +2,17 @@ import configuration from '../configuration';
 import { ConfigModuleOptions } from '@nestjs/config/dist/interfaces';
 import Joi from '@hapi/joi';
 
+/**
+ * ConfigModule 配置
+ *
+ */
 export const configModuleOptions: ConfigModuleOptions = {
-  cache: true,
   isGlobal: true,
+  cache: true,
   envFilePath: ['.env'],
   load: [configuration],
+
+  // 配置文件输入校验
   validationSchema: Joi.object({
     APP_NAME: Joi.string(),
     SERVER_PORT: Joi.number().required(),
@@ -28,6 +34,7 @@ export const configModuleOptions: ConfigModuleOptions = {
     JWT_REFRESH_TOKEN_EXP_IN_SEC: Joi.number().required(),
   }),
   validationOptions: {
+    // 允许未定义字段
     allowUnknown: true,
   },
 };

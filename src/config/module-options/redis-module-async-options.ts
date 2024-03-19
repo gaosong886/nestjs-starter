@@ -1,6 +1,10 @@
 import { RedisModuleAsyncOptions } from '@gaosong886/nestjs-redis';
 import { ConfigService } from '@nestjs/config';
 
+/**
+ * Redis 模块配置
+ *
+ */
 export const redisModuleAsyncOptions: RedisModuleAsyncOptions = {
   isGlobal: true,
   useFactory: async (configService: ConfigService) => {

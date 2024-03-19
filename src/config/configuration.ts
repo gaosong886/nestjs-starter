@@ -1,3 +1,7 @@
+/**
+ * 从 env 中加载配置项
+ *
+ */
 export default (): any => ({
   appName: process.env.APP_NAME,
   serverPort: process.env.SERVER_PORT,

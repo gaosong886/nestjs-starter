@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ScheduledTaskController } from './controllers/scheduled-task.controller';
-import { ScheduledTaskService } from './services/scheduled-task.service';
+import { ScheduledTaskController } from './controller/scheduled-task.controller';
+import { ScheduledTaskService } from './service/scheduled-task.service';
 
 @Module({
   controllers: [ScheduledTaskController],

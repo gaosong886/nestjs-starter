@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { SysUserService } from './services/sys-user.service';
-import { SysUserController } from './controllers/sys-user.controller';
+import { SysUserService } from './service/sys-user.service';
+import { SysUserController } from './controller/sys-user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SysUserEntity } from './entities/sys-user.entity';
-import { SysRoleEntity } from '../access-control/entities/sys-role.entity';
+import { SysUserEntity } from './model/entity/sys-user.entity';
+import { SysRoleEntity } from '../access-control/model/entity/sys-role.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import multer from 'multer';
 import { ConfigService } from '@nestjs/config';
@@ -13,10 +13,10 @@ import path from 'path';
   imports: [
     TypeOrmModule.forFeature([SysUserEntity, SysRoleEntity]),
 
-    // File upload
+    // 文件上传模块
     MulterModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
-        // Customize the save path and filename
+        // 自定义上传路径和文件名
         storage: multer.diskStorage({
           destination: configService.get<string>('fileUploadDir'),
           filename: (_req, file, cb) => {

@@ -44,7 +44,7 @@ export class SysUserEntity {
   })
   updateAt: Date;
 
-  @ManyToMany(() => SysRoleEntity, { cascade: true })
+  @ManyToMany(() => SysRoleEntity)
   @JoinTable({
     name: 'sys_user_role',
     joinColumns: [{ name: 'user_id', referencedColumnName: 'id' }],

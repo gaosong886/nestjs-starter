@@ -17,7 +17,7 @@ import { SysRoleEntity } from 'src/modules/access-control/model/entity/sys-role.
 import { InjectRedis, RedisClient } from '@gaosong886/nestjs-redis';
 import { SYS_USER_KEY } from '../constant/redis-keys.constant';
 import { CreateSysUserDTO } from '../model/dto/create-sys-user.dto';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import _ from 'lodash';
 import { PaginationDTO } from 'src/common/model/dto/pagination.dto';
 import { SysUserVO } from '../model/vo/sys-user.vo';
@@ -67,7 +67,10 @@ export class SysUserService {
       newUser.roles = await manager.find(SysRoleEntity, {
         where: { id: In(_.uniq(createSysUserDTO.roleIds)) },
       });
-      await manager.save(newUser);
+      await manager.save(newUser, {
+        reload: false,
+        transaction: false,
+      });
 
       // 缓存用户信息
       await this.saveSysUserToCache(newUser);
@@ -128,24 +131,33 @@ export class SysUserService {
     inputData: PaginationDTO,
     findManyOptions?: FindManyOptions<SysUserEntity>,
   ): Promise<PaginationVO<SysUserVO>> {
-    let options = {};
+    let options = { ...findManyOptions, relations: ['roles'] };
     if (inputData.query) {
       options = {
+        ...options,
         where: [
           { nickname: Like(`%${inputData.query}%`) },
           { username: Like(`%${inputData.query}%`) },
         ],
       };
     }
-    const page = await this.sysUserRepository.paginate(
-      inputData.page,
-      inputData.pageSize,
-      { ...options, ...findManyOptions, relations: ['roles'] },
-    );
 
-    // 这里 PaginationVO 使用了泛型
-    // 需要先把 page 转换成 plainObject，否则 class-transformer 无法正常转换
-    return plainToInstance(PaginationVO<SysUserVO>, instanceToPlain(page));
+    const totalItems = await this.sysUserRepository.count(options);
+    const totalPages = Math.ceil(totalItems / inputData.pageSize);
+    const skip = (inputData.page - 1) * inputData.pageSize;
+    const data = await this.sysUserRepository.find({
+      ...options,
+      skip: skip,
+      take: inputData.pageSize,
+    });
+
+    return {
+      totalItems,
+      totalPages,
+      pageSize: inputData.pageSize,
+      page: inputData.page,
+      data: plainToInstance(SysUserVO, data),
+    };
   }
 
   /**
@@ -169,7 +181,10 @@ export class SysUserService {
       entity.roles = await manager.find(SysRoleEntity, {
         where: { id: In(_.uniq(updateSysUserDTO.roleIds)) },
       });
-      await manager.save(entity);
+      await manager.save(entity, {
+        reload: false,
+        transaction: false,
+      });
       await this.saveSysUserToCache(entity);
     });
   }
@@ -179,7 +194,7 @@ export class SysUserService {
    *
    */
   async delete(userId: number) {
-    // Cant delete admin's account
+    // 不能删除管理员账户
     if (userId == 1)
       throw new ConflictException(
         this.i18n.t('error.DELETE_USER_FAILED', {
@@ -219,7 +234,7 @@ export class SysUserService {
       return plainToInstance(SysUserVO, JSON.parse(str));
     }
 
-    // 缓存中没有的话，因为是后台接口，可以直接尝试从数据库中查询
+    // 缓存中没有的话，因为是后台接口，直接尝试从数据库中查询
     const user = await this.findById(userId);
     if (user) await this.saveSysUserToCache(user);
     return user;

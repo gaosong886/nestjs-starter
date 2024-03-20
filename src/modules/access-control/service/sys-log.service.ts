@@ -4,7 +4,7 @@ import { FindManyOptions, Like, Repository } from 'typeorm';
 import { SysLogEntity } from '../model/entity/sys-log.entity';
 import { PaginationDTO } from 'src/common/model/dto/pagination.dto';
 import { PaginationVO } from 'src/common/model/vo/pagination.vo';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { SysLogVO } from '../model/vo/sys-log.vo';
 
 @Injectable()
@@ -23,14 +23,16 @@ export class SysLogService {
     ip: string,
     url: string,
     params: string,
-  ): Promise<SysLogVO> {
+  ): Promise<void> {
     const entity = new SysLogEntity();
     entity.userId = userId;
     entity.ip = ip;
     entity.url = url;
     entity.params = params;
-    await this.sysLogRepository.save(entity);
-    return plainToInstance(SysLogVO, entity);
+    await this.sysLogRepository.save(entity, {
+      reload: false,
+      transaction: false,
+    });
   }
 
   /**
@@ -38,32 +40,34 @@ export class SysLogService {
    *
    */
   async page(
-    paginationDTO: PaginationDTO,
+    inputData: PaginationDTO,
     findManyOptions?: FindManyOptions<SysLogEntity>,
   ): Promise<PaginationVO<SysLogVO>> {
-    let options = {};
-
-    if (paginationDTO.query) {
+    let options = { ...findManyOptions, relations: ['user'] };
+    if (inputData.query) {
       // 可以根据 URL 模糊查询
       options = {
-        where: [{ url: Like(`%${paginationDTO.query}%`) }],
+        ...options,
+        where: [{ url: Like(`%${inputData.query}%`) }],
       };
     }
 
-    const page = await this.sysLogRepository.paginate(
-      paginationDTO.page,
-      paginationDTO.pageSize,
-      {
-        ...options,
-        ...findManyOptions,
-        order: { requestAt: 'DESC' },
-        relations: ['user'],
-      },
-    );
+    const totalItems = await this.sysLogRepository.count(options);
+    const totalPages = Math.ceil(totalItems / inputData.pageSize);
+    const skip = (inputData.page - 1) * inputData.pageSize;
+    const data = await this.sysLogRepository.find({
+      ...options,
+      skip: skip,
+      take: inputData.pageSize,
+    });
 
-    // 这里 PaginationVO 使用了泛型
-    // 需要先把 page 转换成 plainObject，否则 class-transformer 无法正常转换
-    return plainToInstance(PaginationVO<SysLogVO>, instanceToPlain(page));
+    return {
+      totalItems,
+      totalPages,
+      pageSize: inputData.pageSize,
+      page: inputData.page,
+      data: plainToInstance(SysLogVO, data),
+    };
   }
 
   /**

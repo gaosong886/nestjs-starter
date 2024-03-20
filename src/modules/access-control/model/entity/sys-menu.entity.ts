@@ -46,7 +46,7 @@ export class SysMenuEntity {
   })
   updateAt: Date;
 
-  @ManyToMany(() => SysPermissionEntity, { cascade: true })
+  @ManyToMany(() => SysPermissionEntity)
   @JoinTable({
     name: 'sys_menu_permission',
     joinColumns: [{ name: 'menu_id', referencedColumnName: 'id' }],
@@ -54,7 +54,7 @@ export class SysMenuEntity {
   })
   permissions: SysPermissionEntity[];
 
-  @ManyToMany(() => SysRoleEntity, { cascade: true })
+  @ManyToMany(() => SysRoleEntity)
   @JoinTable({
     name: 'sys_role_menu',
     joinColumns: [{ name: 'menu_id', referencedColumnName: 'id' }],

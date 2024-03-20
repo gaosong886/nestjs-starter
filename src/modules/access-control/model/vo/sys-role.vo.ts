@@ -12,6 +12,12 @@ export class SysRoleVO {
   description: string;
 
   @Expose()
+  createAt: Date;
+
+  @Expose()
+  updateAt: Date;
+
+  @Expose()
   @Type(() => SysMenuVO)
   menus: SysMenuVO[];
 }

@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { SysUserVO } from 'src/modules/sys-user/model/vo/sys-user.vo';
 
 export class SysLogVO {
@@ -21,5 +21,6 @@ export class SysLogVO {
   requestAt: Date;
 
   @Expose()
+  @Type(() => SysUserVO)
   user: SysUserVO;
 }

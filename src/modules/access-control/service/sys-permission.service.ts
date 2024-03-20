@@ -95,7 +95,10 @@ export class SysPermissionService {
         return;
 
       if (uniqueElements.first.length > 0)
-        await manager.save(uniqueElements.first);
+        await manager.save(uniqueElements.first, {
+          reload: false,
+          transaction: false,
+        });
 
       if (uniqueElements.second.length > 0)
         await manager.remove(uniqueElements.second);

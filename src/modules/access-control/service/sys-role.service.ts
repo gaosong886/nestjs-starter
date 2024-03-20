@@ -3,16 +3,14 @@ import { SysRoleEntity } from '../model/entity/sys-role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, FindManyOptions, In, Repository } from 'typeorm';
 import { WinstonService } from '@gaosong886/nestjs-winston';
-import { PaginationVO } from 'src/common/model/vo/pagination.vo';
 import { InjectRedis, RedisClient } from '@gaosong886/nestjs-redis';
 import { SYS_ROLE_PERMISSION_KEY } from '../constant/redis-keys.constant';
 import { SysRoleDTO } from '../model/dto/sys-role.dto';
-import { PaginationDTO } from 'src/common/model/dto/pagination.dto';
 import { SysMenuEntity } from '../model/entity/sys-menu.entity';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import _ from 'lodash';
 import { SysRoleVO } from '../model/vo/sys-role.vo';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class SysRoleService {
@@ -54,7 +52,10 @@ export class SysRoleService {
       );
 
     await this.dataSource.transaction(async (manager) => {
-      await manager.save(entity);
+      await manager.save(entity, {
+        reload: false,
+        transaction: false,
+      });
 
       // 保存角色的权限信息到 Redis 集合
       await this.saveRolePermissionsToCache(entity.id, _.uniq(permissions));
@@ -90,33 +91,14 @@ export class SysRoleService {
           ),
         );
 
-      await manager.save(entity);
+      await manager.save(entity, {
+        reload: false,
+        transaction: false,
+      });
 
       // 保存角色的权限信息到 Redis 集合
       await this.saveRolePermissionsToCache(entity.id, _.uniq(permissions));
     });
-  }
-
-  /**
-   * 分页查询
-   *
-   */
-  async page(
-    paginationDTO: PaginationDTO,
-    findManyOptions?: FindManyOptions<SysRoleEntity>,
-  ): Promise<PaginationVO<SysRoleVO>> {
-    const page = await this.sysRoleRepository.paginate(
-      paginationDTO.page,
-      paginationDTO.pageSize,
-      {
-        ...findManyOptions,
-        relations: ['menus'],
-      },
-    );
-
-    // 这里 PaginationVO 使用了泛型
-    // 需要先把 page 转换成 plainObject，否则 class-transformer 无法正常转换
-    return plainToInstance(PaginationVO<SysRoleVO>, instanceToPlain(page));
   }
 
   /**

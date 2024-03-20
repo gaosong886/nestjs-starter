@@ -2,9 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { extendRepositoryWithPagination } from './common/util/pagination.util';
 
 async function bootstrap() {
+  // 使用 Express 实例
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Throttler 相关设置
@@ -26,6 +26,4 @@ async function bootstrap() {
   await app.listen(configService.get<number>('serverPort'));
 }
 
-// 给 TypeORM 增加一个简易分页扩展
-extendRepositoryWithPagination();
 bootstrap();

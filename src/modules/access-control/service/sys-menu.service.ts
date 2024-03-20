@@ -41,7 +41,7 @@ export class SysMenuService {
       });
     }
 
-    await this.sysMenuRepository.save(entity);
+    await this.sysMenuRepository.insert(entity);
     return plainToInstance(SysMenuVO, entity);
   }
 
@@ -61,7 +61,7 @@ export class SysMenuService {
       entity.path = sysMenuDTO.path;
       entity.parentId = sysMenuDTO.parentId;
       entity.sortWeight = sysMenuDTO.sortWeight;
-      entity.hidden = sysMenuDTO.isHidden;
+      entity.hidden = sysMenuDTO.hidden;
 
       // 类型为 '操作' 的节点，找出其对应的权限
       if (entity.type === MENU_TYPE.OPERATION) {
@@ -70,7 +70,10 @@ export class SysMenuService {
         });
       }
 
-      await manager.save(entity);
+      await manager.save(entity, {
+        reload: false,
+        transaction: false,
+      });
 
       // 类型为 '操作' 的节点，同步关联角色的权限集合
       if (entity.type === MENU_TYPE.OPERATION && entity.roles)
@@ -90,7 +93,10 @@ export class SysMenuService {
         where: { id: id },
       });
       entity.hidden = entity.hidden ? 0 : 1;
-      await manager.save(entity);
+      await manager.save(entity, {
+        reload: false,
+        transaction: false,
+      });
     });
   }
 
@@ -113,6 +119,7 @@ export class SysMenuService {
     }
 
     await this.dataSource.transaction(async (manager) => {
+      // 为了删除节点相关权限，先把有访问权限的角色查询出来
       const entity = await manager.findOne(SysMenuEntity, {
         relations: ['roles'],
         where: { id: id },
@@ -120,11 +127,12 @@ export class SysMenuService {
       await manager.delete(SysMenuEntity, { id: entity.id });
 
       // 类型为 '操作' 的节点，同步关联角色的权限集合
-      if (entity.type === MENU_TYPE.OPERATION)
+      if (entity.type === MENU_TYPE.OPERATION) {
         if (entity.roles.length > 0) {
           const roleIds = entity.roles.map((role) => role.id);
           await this.syncRolePermissionsByRoleIds(roleIds);
         }
+      }
     });
   }
 
@@ -147,11 +155,7 @@ export class SysMenuService {
    * 查询角色对应的菜单
    *
    */
-  async listByRoleIds(
-    roleIds: number[],
-    withHiddenMenus?: boolean,
-    withPermissions?: boolean,
-  ): Promise<Array<SysMenuVO>> {
+  async listByRoleIds(roleIds: number[]): Promise<Array<SysMenuVO>> {
     const query = this.sysMenuRepository
       .createQueryBuilder('menu')
       .leftJoin('menu.roles', 'role')
@@ -161,10 +165,6 @@ export class SysMenuService {
     // 管理员角色不需要 roleId 查询条件
     if (!roleIds.includes(1))
       query.andWhere('role.id IN (:...roleIds)', { roleIds });
-
-    if (!withHiddenMenus) query.andWhere('menu.hidden = 0');
-    if (withPermissions)
-      query.leftJoinAndSelect('menu.permissions', 'permission');
 
     const list: SysMenuEntity[] = await query.getMany();
     return plainToInstance(SysMenuVO, list);

@@ -21,6 +21,12 @@ export class SysUserVO {
   remark: string;
 
   @Expose()
+  createAt: Date;
+
+  @Expose()
+  updateAt: Date;
+
+  @Expose()
   @Type(() => SysRoleVO)
   roles: SysRoleVO[];
 }

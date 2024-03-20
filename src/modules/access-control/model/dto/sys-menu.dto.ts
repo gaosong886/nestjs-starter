@@ -43,7 +43,7 @@ export class SysMenuDTO {
   @IsOptional()
   @IsNumber()
   @Transform((param) => Number(param.value))
-  isHidden: number = 0;
+  hidden: number = 0;
 
   @IsOptional()
   @IsArray()

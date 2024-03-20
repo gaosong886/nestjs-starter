@@ -46,7 +46,7 @@ export class SysMenuController {
   async menu(@Req() req: Request): Promise<Array<SysMenuVO>> {
     const roleIds = req.user.roles.map((item) => item.id);
     // 根据用户角色查询可显示的菜单
-    return await this.sysMenuService.listByRoleIds(roleIds, false, false);
+    return await this.sysMenuService.listByRoleIds(roleIds);
   }
 
   @Post('hide/:id')

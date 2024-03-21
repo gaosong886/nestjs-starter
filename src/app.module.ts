@@ -113,7 +113,10 @@ import { ScheduledTaskModule } from './modules/scheduled-task/scheduled-task.mod
       provide: APP_INTERCEPTOR,
       useFactory: (reflector: Reflector) =>
         new ClassSerializerInterceptor(reflector, {
+          // 去掉 undefined 和 null 字段
           exposeUnsetFields: false,
+          // class-transformer 在 plainToInstance 时默认会保留 plainObject 中多余的字段
+          // 在这里可以配置成去掉 class 中未声明的字段
           excludeExtraneousValues: true,
         }),
       inject: [Reflector],

@@ -17,7 +17,7 @@ export const typeOrmModuleAsyncOptions: TypeOrmModuleAsyncOptions = {
     password: configService.get<string>('database.pass'),
     timezone: '-08:00',
     synchronize: false,
-    // logging: 'all',
+    logging: 'all',
   }),
   inject: [ConfigService],
 };

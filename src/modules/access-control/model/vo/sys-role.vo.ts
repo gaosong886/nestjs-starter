@@ -1,5 +1,5 @@
 import { Expose, Type } from 'class-transformer';
-import { SysMenuVO } from './sys-menu.vo';
+import { SysMenuLiteVO } from './sys-menu-lite.vo';
 
 export class SysRoleVO {
   @Expose()
@@ -18,6 +18,6 @@ export class SysRoleVO {
   updateAt: Date;
 
   @Expose()
-  @Type(() => SysMenuVO)
-  menus: SysMenuVO[];
+  @Type(() => SysMenuLiteVO)
+  menus: SysMenuLiteVO[];
 }

@@ -1,5 +1,5 @@
 import { Expose, Type } from 'class-transformer';
-import { SysRoleVO } from 'src/modules/access-control/model/vo/sys-role.vo';
+import { SysRoleLiteVO } from 'src/modules/access-control/model/vo/sys-role-lite.vo';
 
 export class SysUserVO {
   @Expose()
@@ -27,6 +27,6 @@ export class SysUserVO {
   updateAt: Date;
 
   @Expose()
-  @Type(() => SysRoleVO)
-  roles: SysRoleVO[];
+  @Type(() => SysRoleLiteVO)
+  roles: SysRoleLiteVO[];
 }

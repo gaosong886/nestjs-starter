@@ -22,7 +22,6 @@ There are no unit test specifications in this project. You can add them as neede
 ## Resources
 
 - [Frontend Boilerplate](https://github.com/gaosong886/react-antd-starter)
-- [Live Demo](http://gaosong886.tech)
 
 ## Setup
 

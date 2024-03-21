@@ -6,9 +6,9 @@ import {
 
 /**
  * 自定义装饰器：校验参数是否是合法的文件路径
- *
+ * @param validationOptions class-validator 校验选项
  */
-export const IsFilePath = (validationOptions?: ValidationOptions) => {
+export function IsFilePath(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'isFilePath',
@@ -27,4 +27,4 @@ export const IsFilePath = (validationOptions?: ValidationOptions) => {
       },
     });
   };
-};
+}

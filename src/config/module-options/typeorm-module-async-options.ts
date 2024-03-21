@@ -3,7 +3,6 @@ import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 
 /**
  * TypeORM 模块配置
- *
  */
 export const typeOrmModuleAsyncOptions: TypeOrmModuleAsyncOptions = {
   useFactory: async (configService: ConfigService) => ({
@@ -17,7 +16,7 @@ export const typeOrmModuleAsyncOptions: TypeOrmModuleAsyncOptions = {
     password: configService.get<string>('database.pass'),
     timezone: '-08:00',
     synchronize: false,
-    logging: 'all',
+    // logging: 'all',
   }),
   inject: [ConfigService],
 };

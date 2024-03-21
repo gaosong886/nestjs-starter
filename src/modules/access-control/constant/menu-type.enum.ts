@@ -1,6 +1,5 @@
 /**
  * 菜单节点类型
- *
  */
 export enum MENU_TYPE {
   // 目录

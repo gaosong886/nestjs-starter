@@ -3,7 +3,6 @@ import * as path from 'path';
 
 /**
  * 多语言模块配置
- *
  */
 export const i18nMoudleOptions: I18nOptions = {
   // 如果没有对应本地化文本，默认语言为 en

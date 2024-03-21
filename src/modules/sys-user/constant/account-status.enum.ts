@@ -1,6 +1,5 @@
 /**
  * 账号状态
- *
  */
 export enum ACCOUNT_STATUS {
   // 活动

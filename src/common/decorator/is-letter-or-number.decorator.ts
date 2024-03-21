@@ -6,7 +6,7 @@ import {
 
 /**
  * 自定义装饰器：校验参数是否只包含中英文或数字
- *
+ * @param validationOptions class-validator 校验选项
  */
 export const IsLetterOrNumber = (validationOptions?: ValidationOptions) => {
   return function (object: object, propertyName: string) {

@@ -12,8 +12,7 @@ import { ThrottlerException } from '@nestjs/throttler';
 import { WinstonService } from '@gaosong886/nestjs-winston';
 
 /**
- * HTTP 错误过滤器
- *
+ * HTTP 异常过滤器
  */
 @Catch(HttpException)
 export class HttpExceptionsFilter implements ExceptionFilter {

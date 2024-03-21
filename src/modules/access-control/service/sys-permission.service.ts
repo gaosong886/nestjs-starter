@@ -35,7 +35,7 @@ export class SysPermissionService {
 
   /**
    * 列表查询
-   *
+   * @return Promise<Array<SysPermissionVO>> 权限列表
    */
   async list(): Promise<Array<SysPermissionVO>> {
     const list = await this.sysPermissionRepository.find({
@@ -46,7 +46,6 @@ export class SysPermissionService {
 
   /**
    * 初始化权限字符串并和数据库进行比对
-   *
    */
   async initPermissions() {
     // 获取所有控制器

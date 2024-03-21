@@ -4,6 +4,7 @@
  * @param first 第一个数组
  * @param second 第二个数组
  * @param hashKey 用来进行哈希的 key
+ * @return UniqueElements<T> 两个数组各自的的不重复部分
  *
  * @example
  * const A = [1, 2, 3, 4, 5];

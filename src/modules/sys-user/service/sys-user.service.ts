@@ -18,9 +18,9 @@ import { InjectRedis, RedisClient } from '@gaosong886/nestjs-redis';
 import { SYS_USER_KEY } from '../constant/redis-keys.constant';
 import { CreateSysUserDTO } from '../model/dto/create-sys-user.dto';
 import { plainToInstance } from 'class-transformer';
-import _ from 'lodash';
 import { PaginationDTO } from 'src/common/model/dto/pagination.dto';
 import { SysUserVO } from '../model/vo/sys-user.vo';
+import _ from 'lodash';
 
 @Injectable()
 export class SysUserService {
@@ -38,7 +38,8 @@ export class SysUserService {
 
   /**
    * 创建账号
-   *
+   * @param createSysUserDTO
+   * @returns Promise<SysUserVO> 对象
    */
   async create(createSysUserDTO: CreateSysUserDTO): Promise<SysUserVO> {
     const sysUser = await this.sysUserRepository.findOne({
@@ -81,7 +82,9 @@ export class SysUserService {
 
   /**
    * 验证账号密码
-   *
+   * @param username
+   * @param password
+   * @returns Promise<SysUserVO> 对象
    */
   async verify(username: string, password: string): Promise<SysUserVO> {
     const entity = await this.sysUserRepository.findOne({
@@ -111,13 +114,14 @@ export class SysUserService {
 
   /**
    * 根据用户 id 查询
-   *
+   * @param userId 用户 id
+   * @returns Promise<SysUserVO> 对象
    */
-  async findById(id: number): Promise<SysUserVO> {
+  async findById(userId: number): Promise<SysUserVO> {
     const entity = await this.sysUserRepository.findOne({
       relations: ['roles'],
       where: {
-        id: id,
+        id: userId,
       },
     });
     return plainToInstance(SysUserVO, entity);
@@ -125,49 +129,55 @@ export class SysUserService {
 
   /**
    * 分页查询
-   *
+   * @param paginationDTO 分页参数
+   * @param findManyOptions 查询选项
+   * @returns Promise<PaginationVO<SysUserVO>> 分页对象
    */
   async page(
-    inputData: PaginationDTO,
+    paginationDTO: PaginationDTO,
     findManyOptions?: FindManyOptions<SysUserEntity>,
   ): Promise<PaginationVO<SysUserVO>> {
     let options = { ...findManyOptions, relations: ['roles'] };
-    if (inputData.query) {
+    if (paginationDTO.query) {
       options = {
         ...options,
         where: [
-          { nickname: Like(`%${inputData.query}%`) },
-          { username: Like(`%${inputData.query}%`) },
+          { nickname: Like(`%${paginationDTO.query}%`) },
+          { username: Like(`%${paginationDTO.query}%`) },
         ],
       };
     }
 
     const totalItems = await this.sysUserRepository.count(options);
-    const totalPages = Math.ceil(totalItems / inputData.pageSize);
-    const skip = (inputData.page - 1) * inputData.pageSize;
+    const totalPages = Math.ceil(totalItems / paginationDTO.pageSize);
+    const skip = (paginationDTO.page - 1) * paginationDTO.pageSize;
     const data = await this.sysUserRepository.find({
       ...options,
       skip: skip,
-      take: inputData.pageSize,
+      take: paginationDTO.pageSize,
     });
 
     return {
       totalItems,
       totalPages,
-      pageSize: inputData.pageSize,
-      page: inputData.page,
+      pageSize: paginationDTO.pageSize,
+      page: paginationDTO.page,
       data: plainToInstance(SysUserVO, data),
     };
   }
 
   /**
    * 更新用户信息
-   *
+   * @param userId 用户 id
+   * @param updateSysUserDTO
    */
-  async update(id: number, updateSysUserDTO: UpdateSysUserDTO): Promise<void> {
+  async update(
+    userId: number,
+    updateSysUserDTO: UpdateSysUserDTO,
+  ): Promise<void> {
     await this.dataSource.transaction(async (manager) => {
       const entity = await manager.findOne(SysUserEntity, {
-        where: { id: id },
+        where: { id: userId },
       });
       entity.username = updateSysUserDTO.username;
       entity.accountStatus = updateSysUserDTO.accountStatus;
@@ -190,8 +200,8 @@ export class SysUserService {
   }
 
   /**
-   * 删除
-   *
+   * 删除对象
+   * @param userId 用户 id
    */
   async delete(userId: number) {
     // 不能删除管理员账户
@@ -209,8 +219,8 @@ export class SysUserService {
   }
 
   /**
-   * 从 Redis 缓存中删除
-   *
+   * 从 Redis 缓存中删除用户信息
+   * @param userId 用户 id
    */
   private async deleteSysUserInCache(userId: number) {
     await this.redisClient.del(SYS_USER_KEY(userId));
@@ -218,7 +228,7 @@ export class SysUserService {
 
   /**
    * 保存用户信息到 Redis 缓存
-   *
+   * @param entity 用户信息实体
    */
   private async saveSysUserToCache(entity: Record<string, any>): Promise<void> {
     await this.redisClient.set(SYS_USER_KEY(entity.id), JSON.stringify(entity));
@@ -226,7 +236,8 @@ export class SysUserService {
 
   /**
    * 从 Redis 缓存中获取用户信息
-   *
+   * @param userId 用户 id
+   * @returns Promise<SysUserVO> 对象
    */
   async getSysUserFromCache(userId: number): Promise<SysUserVO> {
     const str = await this.redisClient.get(SYS_USER_KEY(userId));

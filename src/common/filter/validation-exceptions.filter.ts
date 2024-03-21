@@ -8,8 +8,7 @@ import {
 import { ApiResponse } from '../model/api-response';
 
 /**
- * 参数校验错误过滤器
- *
+ * 参数校验异常过滤器
  */
 @Catch(I18nValidationException)
 export class ValidationExceptionsFilter extends I18nValidationExceptionFilter {

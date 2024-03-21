@@ -9,8 +9,7 @@ import { Response } from 'express';
 import { WinstonService } from '@gaosong886/nestjs-winston';
 
 /**
- * 内部错误过滤器
- *
+ * 全局异常过滤器
  */
 @Catch(Error)
 export class ErrorsFilter implements ExceptionFilter {

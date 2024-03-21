@@ -2,7 +2,6 @@ import { Expose } from 'class-transformer';
 
 /**
  * 文件上传状态响应封装
- *
  */
 export class FileUploadVO {
   @Expose()

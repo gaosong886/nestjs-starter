@@ -9,7 +9,6 @@ import { STRATEGY_JWT_REFRESH } from '../constant';
 
 /**
  * Jwt 刷新守卫
- *
  */
 @Injectable()
 export class JwtRefreshGuard extends AuthGuard(STRATEGY_JWT_REFRESH) {

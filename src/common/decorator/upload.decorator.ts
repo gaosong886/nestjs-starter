@@ -8,7 +8,8 @@ import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer
 
 /**
  * 自定义装饰器：封装 Multer 模块的常用参数
- *
+ * @param fieldName 上传请求中的文件字段名
+ * @param options Multer 设置
  */
 export function Upload(fieldName = 'file', options: MulterOptions = {}) {
   return applyDecorators(UseInterceptors(FileInterceptor(fieldName, options)));
@@ -16,9 +17,10 @@ export function Upload(fieldName = 'file', options: MulterOptions = {}) {
 
 /**
  * 自定义 Multer mimetype 过滤器
- *
+ * @param mimes 支持的文件类型列表
+ * @returns 文件类型校验回调函数
  */
-export const mimetypesfilter = (...mimes: string[]) => {
+export function mimetypesfilter(...mimes: string[]) {
   return (
     _req: any,
     file: Express.Multer.File,
@@ -33,4 +35,4 @@ export const mimetypesfilter = (...mimes: string[]) => {
       );
     }
   };
-};
+}

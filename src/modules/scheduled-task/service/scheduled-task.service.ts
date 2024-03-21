@@ -7,8 +7,8 @@ export class ScheduledTaskService {
   constructor(private schedulerRegistry: SchedulerRegistry) {}
 
   /**
-   *  列表查询
-   *
+   * 列表查询
+   * @returns Promise<Array<ScheduledTaskVO>> 任务列表
    */
   async list(): Promise<Array<ScheduledTaskVO>> {
     const jobs = this.schedulerRegistry.getCronJobs();
@@ -26,8 +26,8 @@ export class ScheduledTaskService {
   }
 
   /**
-   *  开启/暂停
-   *
+   * 开启 / 暂停
+   * @param name 任务名称
    */
   async switch(name: string) {
     const job = this.schedulerRegistry.getCronJob(name);
@@ -36,8 +36,7 @@ export class ScheduledTaskService {
   }
 
   /**
-   *  定时任务 Demo
-   *
+   * 定时任务 Demo
    */
   @Cron('0 * * * * *', {
     name: 'Demo',

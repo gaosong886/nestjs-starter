@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 
 /**
  * Redis 模块配置
- *
  */
 export const redisModuleAsyncOptions: RedisModuleAsyncOptions = {
   isGlobal: true,

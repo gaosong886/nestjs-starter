@@ -9,7 +9,6 @@ import { ALLOW_ANONYMOUS_KEY } from 'src/modules/auth/decorator/allow-anonymous.
 
 /**
  * 权限守卫
- *
  */
 @Injectable()
 export class PermissionGuard implements CanActivate {
@@ -54,7 +53,11 @@ export class PermissionGuard implements CanActivate {
     return false;
   }
 
-  // 拼装权限字符串，例如 sys-user:update
+  /**
+   * 拼装权限字符串
+   * @param context 容器执行上下文
+   * @returns 权限字符串，例如 sys-user:update
+   */
   getPermissionString(context: ExecutionContext): string {
     const controllerPath = this.reflector.get<string>(
       PATH_METADATA,

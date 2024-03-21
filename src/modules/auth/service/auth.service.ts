@@ -23,7 +23,8 @@ export class AuthService {
 
   /**
    * 登录验证
-   *
+   * @param loginDTO
+   * @returns Promise<JwtTokenVO> Token 对象
    */
   async verifySysUser(loginDTO: LoginDTO): Promise<JwtTokenVO> {
     const user = await this.sysUserService.verify(
@@ -37,8 +38,9 @@ export class AuthService {
   }
 
   /**
-   * 刷新 Jwt
-   *
+   * 刷新 Token
+   * @param req 请求对象
+   * @returns Promise<JwtTokenVO> Token 对象
    */
   async refreshAuthToken(req: Request): Promise<JwtTokenVO> {
     const user = await this.sysUserService.getSysUserFromCache(req.user.id);
@@ -58,8 +60,9 @@ export class AuthService {
   }
 
   /**
-   * 生成 token
-   *
+   * 生成 Token
+   * @param payload Jwt 载荷
+   * @returns JwtTokenVO 对象
    */
   private generateAuthToken(payload: JwtPayloadDTO): JwtTokenVO {
     const authToken = {

@@ -9,8 +9,7 @@ import { ApiResponse } from '../model/api-response';
 import { ERROR_CODE } from '../constant/error-code.constant';
 
 /**
- * 全局格式化响应体
- *
+ * 响应体格式化拦截器
  */
 @Injectable()
 export class ApiResponseInterceptor<T>

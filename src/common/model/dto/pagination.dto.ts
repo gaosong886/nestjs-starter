@@ -4,7 +4,6 @@ import { IsLetterOrNumber } from 'src/common/decorator/is-letter-or-number.decor
 
 /**
  * 通用分页请求参数封装
- *
  */
 export class PaginationDTO {
   @IsOptional()

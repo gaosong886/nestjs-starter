@@ -11,7 +11,6 @@ import { ALLOW_ANONYMOUS_KEY } from '../decorator/allow-anonymous.decorator';
 
 /**
  * Jwt 鉴权守卫
- *
  */
 @Injectable()
 export class JwtAuthGuard extends AuthGuard(STRATEGY_JWT_AUTH) {

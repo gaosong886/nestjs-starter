@@ -1,6 +1,5 @@
 /**
  * Token 类型
- *
  */
 export enum TOKEN_TYPE {
   ACCESS = 0,

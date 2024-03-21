@@ -4,7 +4,6 @@ import Joi from '@hapi/joi';
 
 /**
  * ConfigModule 配置
- *
  */
 export const configModuleOptions: ConfigModuleOptions = {
   isGlobal: true,

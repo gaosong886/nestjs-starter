@@ -8,7 +8,6 @@ import 'winston-daily-rotate-file'; // Expand winston.transports with adding 'Da
 
 /**
  * Winston 日志模块配置
- *
  */
 export const winstonModuleAsyncOptions: WinstonModuleAsyncOptions = {
   isGlobal: true,

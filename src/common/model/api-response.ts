@@ -2,7 +2,6 @@ import { Expose } from 'class-transformer';
 
 /**
  * 通用响应体封装
- *
  */
 export class ApiResponse<T> {
   @Expose()

@@ -30,7 +30,8 @@ export class SysRoleService {
 
   /**
    * 创建角色
-   *
+   * @param sysRoleDTO
+   * @returns Promise<SysRoleVO> 角色对象
    */
   async create(sysRoleDTO: SysRoleDTO): Promise<SysRoleVO> {
     const entity = new SysRoleEntity();
@@ -65,7 +66,8 @@ export class SysRoleService {
 
   /**
    * 更新角色
-   *
+   * @param id 角色 id
+   * @param sysRoleInputDTO
    */
   async update(id: number, sysRoleInputDTO: SysRoleDTO): Promise<void> {
     await this.dataSource.transaction(async (manager) => {
@@ -103,7 +105,8 @@ export class SysRoleService {
 
   /**
    * 列表查询
-   *
+   * @param findManyOptions 查询选项
+   * @returns Promise<Array<SysRoleVO>> 角色列表
    */
   async list(
     findManyOptions?: FindManyOptions<SysRoleEntity>,
@@ -116,8 +119,8 @@ export class SysRoleService {
   }
 
   /**
-   * 删除
-   *
+   * 删除角色
+   * @param roleId 角色 id
    */
   async delete(roleId: number): Promise<void> {
     // Can not delete the role of admin
@@ -138,7 +141,7 @@ export class SysRoleService {
 
   /**
    * 删除 Redis 中角色的权限集合
-   *
+   * @param roleId 角色 id
    */
   private async deleteRolePermissionsInCache(roleId: number) {
     await this.redisClient.del(SYS_ROLE_PERMISSION_KEY(roleId));
@@ -146,7 +149,8 @@ export class SysRoleService {
 
   /**
    * 保存角色的权限到 Redis 集合中
-   *
+   * @param roleId 角色 id
+   * @param permNames 权限字符串数组
    */
   async saveRolePermissionsToCache(
     roleId: number,
@@ -163,7 +167,9 @@ export class SysRoleService {
 
   /**
    * 判断角色是否具有某条权限
-   *
+   * @param roleId 角色 id
+   * @param permission 权限字符串
+   * @returns true / false
    */
   async hasPermission(roleId: number, permission: string): Promise<number> {
     return await this.redisClient.sismember(

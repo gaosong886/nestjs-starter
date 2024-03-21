@@ -2,7 +2,6 @@ import { ThrottlerModuleOptions } from '@nestjs/throttler';
 
 /**
  * 限流模块配置
- *
  */
 export const throttlerModuleOptions: ThrottlerModuleOptions = [
   // 每秒 3 次请求

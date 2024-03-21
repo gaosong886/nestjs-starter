@@ -29,7 +29,8 @@ export class SysMenuService {
 
   /**
    * 创建菜单节点
-   *
+   * @param sysMenuDTO
+   * @returns Promise<SysMenuVO> 菜单节点对象
    */
   async create(sysMenuDTO: SysMenuDTO): Promise<SysMenuVO> {
     const entity = plainToInstance(SysMenuEntity, sysMenuDTO);
@@ -47,7 +48,8 @@ export class SysMenuService {
 
   /**
    * 更新节点
-   *
+   * @param id 节点 id
+   * @param sysMenuDTO
    */
   async update(id: number, sysMenuDTO: SysMenuDTO): Promise<void> {
     await this.dataSource.transaction(async (manager) => {
@@ -84,8 +86,8 @@ export class SysMenuService {
   }
 
   /**
-   * 开启/隐藏菜单节点
-   *
+   * 显示 / 隐藏菜单节点
+   * @param id 节点 id
    */
   async hide(id: number): Promise<void> {
     await this.dataSource.transaction(async (manager) => {
@@ -102,7 +104,7 @@ export class SysMenuService {
 
   /**
    * 删除节点
-   *
+   * @param id 节点 id
    */
   async delete(id: number): Promise<void> {
     const childMenus = await this.sysMenuRepository.find({
@@ -138,7 +140,8 @@ export class SysMenuService {
 
   /**
    * 列表查询
-   *
+   * @param findManyOptions 查询选项
+   * @returns Promise<Array<SysMenuVO>> 菜单节点列表
    */
   async list(
     findManyOptions?: FindManyOptions<SysMenuEntity>,
@@ -153,7 +156,8 @@ export class SysMenuService {
 
   /**
    * 查询角色对应的菜单
-   *
+   * @param roleIds 角色 id 数组
+   * @returns Promise<Array<SysMenuVO>> 菜单节点列表
    */
   async listByRoleIds(roleIds: number[]): Promise<Array<SysMenuVO>> {
     const query = this.sysMenuRepository
@@ -172,7 +176,7 @@ export class SysMenuService {
 
   /**
    * 同步 roleIds 中各个角色的权限集合
-   *
+   * @param roleIds 角色 id 数组
    */
   private async syncRolePermissionsByRoleIds(roleIds: number[]) {
     for (const roleId of roleIds) {

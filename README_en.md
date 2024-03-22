@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-A nestjs template project featuring a simple solution of role-based access control.
+A NestJS template project featuring a simple solution of role-based access control.
 
 - [中文文档](README.md)  
 

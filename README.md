@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-一个使用 Nest.js 构建的后端模板项目，遵循 Nest.js 倡导的模块化代码组织设计理念，提供了一个简单的基于角色的访问控制解决方案。
+一个使用 [NestJS](https://github.com/nestjs/nest) 构建的后端模板项目，提供了一个简单的基于角色的访问控制解决方案。
 
 
 - [English Doc](README_en.md)  
@@ -21,7 +21,7 @@
 | 限流 | nestjs/throttler | 已完成 |
 | 多语言 | nestjs-i18n | 已完成 |
 
-项目中目前没有包含单元测试规范，请根据需要添加。
+- 项目中目前没有包含单元测试规范，请根据需要添加。
 
 ## 资源
 

@@ -64,7 +64,7 @@ export class SysUserController {
 
   @Post('photo')
   @Upload('file', {
-    limits: { fileSize: 300 * 1024 },
+    limits: { fileSize: 500 * 1024 },
     fileFilter: mimetypesfilter('image/png', 'image/jpeg'),
   })
   async photo(

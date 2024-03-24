@@ -200,7 +200,7 @@ export class SysUserService {
   }
 
   /**
-   * 删除对象
+   * 删除账号
    * @param userId 用户 id
    */
   async delete(userId: number) {

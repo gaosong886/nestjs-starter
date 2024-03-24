@@ -6,7 +6,6 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  SerializeOptions,
 } from '@nestjs/common';
 import { SysRoleService } from '../service/sys-role.service';
 import { SysRoleDTO } from '../model/dto/sys-role.dto';
@@ -39,9 +38,6 @@ export class SysRoleController {
     await this.sysRoleService.delete(id);
   }
 
-  @SerializeOptions({
-    ignoreDecorators: true,
-  })
   @Get('list')
   async list(): Promise<Array<SysRoleVO>> {
     return await this.sysRoleService.list();

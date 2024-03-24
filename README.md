@@ -1,8 +1,8 @@
-## Nestjs starter
+## NestJS Starter
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-一个使用 [NestJS](https://github.com/nestjs/nest) 构建的后端模板项目，提供了一个简单的基于角色的访问控制解决方案。
+一个使用 [NestJS](https://github.com/nestjs/nest) 构建的后端模板项目，提供接口级别的基于角色的访问控制。
 
 
 - [English Doc](README_en.md)  
@@ -67,7 +67,7 @@ $ npm run start:prod
 
 ## 关于访问控制
 
-项目基于 RBAC 模型进行访问控制，涉及到的元素有 `用户 (User)`，`角色 (Role)`，`菜单 (Menu)`，`权限 (Permission)`。
+项目基于 RBAC 模型进行访问控制，粒度到控制器方法。涉及到的元素有 `用户 (User)`，`角色 (Role)`，`菜单 (Menu)`，`权限 (Permission)`。
 
 其中 `权限 (Permission)` 是基于控制器的路径自动生成的。例如，当项目中有下面的控制器：
 
@@ -81,6 +81,6 @@ export class DemoController {
 }
 ```
 
-在项目启动时，会自动生成一个权限字符串 `demo:list` 并将其插入到数据库中，我们在后台可以把 `权限 (Permission)` 和 `菜单 (Menu)` 进行关联。
+在项目启动时，会自动生成一个权限字符串 `demo:list` 并将其插入到数据库中，我们在后台可以把 `权限 (Permission)` 和 `菜单 (Menu)` 进行多对多的关联。
 
 使用 `@AvoidPermission()` 装饰器的控制器方法不会生成权限字符串，在被访问时也不会检查权限。
